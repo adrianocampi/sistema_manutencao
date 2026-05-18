@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Manutenção</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1   { color: #333; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<h2 style="margin-top: 40px;">Adicionar Equipamento</h2>
+    <form action="/adicionar" method="POST">
+        <table>
+            <tr>
+                <td>Nome:</td>
+                <td><input type="text" name="nome" required></td>
+            </tr>
+            <tr>
+                <td>Horas:</td>
+                <td><input type="number" name="horas" required></td>
+            </tr>
+            <tr>
+                <td>Setor:</td>
+                <td><input type="text" name="setor" required></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit">Cadastrar</button></td>
+            </tr>
+        </table>
+    </form>
+<body>
+    <h1>Sistema de Manutenção</h1>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Horas</th>
+            <th>Setor</th>
+            <th>Status</th>
+            <th>Ação</th>
+        </tr>
+        {% for equipamento in equipamentos %}
+        <tr>
+            <td>{{ equipamento.id }}</td>
+            <td>{{ equipamento.nome }}</td>
+            <td>{{ equipamento.horas }}</td>
+            <td>{{ equipamento.setor }}</td>
+            <td style="
+                color: white;
+                background-color:
+                {% if equipamento.status == 'CRÍTICO' %} red
+                {% elif equipamento.status == 'ALERTA' %} orange
+                {% elif equipamento.status == 'ATENÇÃO' %} goldenrod
+                {% else %} green
+                {% endif %};
+                font-weight: bold;
+                text-align: center;">
+                {{ equipamento.status }}
+            </td>
+	    <td>
+                <form action="/atualizar" method="POST">
+                    <input type="hidden" name="id" value="{{ equipamento.id }}">
+                    <input type="number" name="horas" style="width: 70px;" required>
+                    <button type="submit">Atualizar</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
