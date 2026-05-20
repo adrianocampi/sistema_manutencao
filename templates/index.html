@@ -43,6 +43,7 @@
             <th>Setor</th>
             <th>Status</th>
             <th>Ação</th>
+	    <th>Excluir</th>
         </tr>
         {% for equipamento in equipamentos %}
         <tr>
@@ -69,6 +70,12 @@
                     <button type="submit">Atualizar</button>
                 </form>
             </td>
+	    <td>
+    		<form action="/excluir" method="POST">
+        	    <input type="hidden" name="id" value="{{ equipamento.id }}">
+        	    <button type="submit" style="background-color: red; color: white; border: none; padding: 5px 10px; cursor: pointer;">X</button>
+    		</form>
+	    	</td>
         </tr>
         {% endfor %}
     </table>

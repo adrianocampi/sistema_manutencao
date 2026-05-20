@@ -29,6 +29,18 @@ def verificar_status(horas):
     else:
         return "OK"
 
+@app.route("/excluir", methods=["POST"])
+def excluir():
+    id = int(request.form["id"])
+
+    conn = sqlite3.connect("manutencao.db")
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM equipamentos WHERE id = ?", (id,))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("home"))
+
 @app.route("/adicionar", methods=["POST"])
 def adicionar():
     nome  = request.form["nome"]
