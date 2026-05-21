@@ -28,6 +28,10 @@
                 <td><input type="text" name="setor" required></td>
             </tr>
             <tr>
+                <td>Última Manutenção:</td>
+                <td><input type="date" name="ultima_manutencao"></td>
+            </tr>
+            <tr>
                 <td></td>
                 <td><button type="submit">Cadastrar</button></td>
             </tr>
@@ -42,6 +46,7 @@
             <th>Horas</th>
             <th>Setor</th>
             <th>Status</th>
+	    <th>Última Manutenção</th>
             <th>Ação</th>
 	    <th>Excluir</th>
         </tr>
@@ -62,6 +67,7 @@
                 font-weight: bold;
                 text-align: center;">
                 {{ equipamento.status }}
+	    <td>{{ equipamento.ultima_manutencao or "Não informado" }}</td>
             </td>
 	    <td>
                 <form action="/atualizar" method="POST">

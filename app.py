@@ -46,14 +46,15 @@ def adicionar():
     nome  = request.form["nome"]
     horas = int(request.form["horas"])
     setor = request.form["setor"]
+    ultima_manutencao = request.form["ultima_manutencao"]
     status = verificar_status(horas)
 
     conn = sqlite3.connect("manutencao.db")
     cursor = conn.cursor()
     cursor.execute("""
-        INSERT INTO equipamentos (nome, horas, setor, status)
-        VALUES (?, ?, ?, ?)
-    """, (nome, horas, setor, status))
+        INSERT INTO equipamentos (nome, horas, setor, status, ultima_manutencao)
+        VALUES (?, ?, ?, ?, ?)
+    """, (nome, horas, setor, status, ultima_manutencao))
     conn.commit()
     conn.close()
 
