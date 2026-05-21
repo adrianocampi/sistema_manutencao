@@ -13,9 +13,33 @@ def get_equipamentos():
     return equipamentos
 
 @app.route("/")
+@app.route("/")
 def home():
-    equipamentos = get_equipamentos()
-    return render_template("index.html", equipamentos=equipamentos)
+    conn = sqlite3.connect("manutencao.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM equipamentos")
+    equipamentos = cursor.fetchall()
+    conn.close()
+
+    nomes = [e["nome"] for e in equipamentos]
+    horas = [e["horas"] for e in equipamentos]
+    cores = []
+    for e in equipamentos:
+        if e["status"] == "CRÍTICO":
+            cores.append("red")
+        elif e["status"] == "ALERTA":
+            cores.append("orange")
+        elif e["status"] == "ATENÇÃO":
+            cores.append("goldenrod")
+        else:
+            cores.append("green")
+
+    return render_template("index.html",
+                           equipamentos=equipamentos,
+                           nomes=nomes,
+                           horas=horas,
+                           cores=cores)
 
 from flask import Flask, render_template, request, redirect, url_for
 
